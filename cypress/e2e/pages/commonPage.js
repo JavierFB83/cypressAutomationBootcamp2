@@ -3,7 +3,8 @@ export class CommonPage{
     visitLink(url) {
       cy.visit(url);
     }
-    
+
+    // Sin parametrizar
     checkUrlContent(url) {
       cy.url().should('include', url);
     }
@@ -12,7 +13,7 @@ export class CommonPage{
         cy.url().should('not.include', url);
     }
 
-    // Parametrizada tanto en el contenido como en el staatus de ese contenido 
+    // Parametrizada tanto en el contenido como en el status de ese contenido 
     checkUrl(includeProperty, endpoint) {
         cy.url().should(includeProperty, endpoint);
     }

@@ -11,6 +11,7 @@ When("I login with the username {string} and password {string}",(userName, passw
 });
 
 When("I login with valid credentials",() => {
+    loginPage.checkUrl('not.include', 'inventory');
     loginPage.checkValueOnInputByDataTest("username", "");
     loginPage.typeOnInputByDataTest("username", "standard_user");
     loginPage.checkValueOnInputByDataTest("username", "standard_user");
@@ -18,4 +19,7 @@ When("I login with valid credentials",() => {
     loginPage.typeOnInputByDataTest("password", "secret_sauce");
     loginPage.checkValueOnInputByDataTest("password", "secret_sauce");
     loginPage.clickButtonByDataTest('login-button');
+    loginPage.checkUrl('include', 'inventory');
+    /* Aunque todas estas funciones pertenecen a commonPage, como esa clase se está extendiendo en "loginPage"
+      podemos acceder a estas funciones desde aquí, se podrian llamar tanto usando loginPage. como commonPage. */
 });
