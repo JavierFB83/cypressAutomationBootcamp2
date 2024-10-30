@@ -4,7 +4,7 @@ import { Given, When, Then} from "@badeball/cypress-cucumber-preprocessor";
 import { CommonPage} from "../pages/commonPage"
 
 //Instancias de clase
-let commonPage = new CommonPage
+let commonPage = new CommonPage();
 
 Given("I visit {string}", (url) => {
     commonPage.visitLink(url);
