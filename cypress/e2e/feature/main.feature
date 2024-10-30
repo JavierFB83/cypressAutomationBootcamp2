@@ -20,7 +20,7 @@ Feature: Main test suite
     Then I check that the element inventory item exist
 
 #Escenario anterior pero usando mejores prácticas "pasos parametrizados"
-    Scenario: Add a product to the cart from main page
+    Scenario: Better practice Add a product to the cart from main page
     Given I check that the element "shopping-cart-badge" should "not.exist"
     And I click on the button "shopping-cart-link"
     And I check that the url "include" the endpoint "cart"
