@@ -29,4 +29,14 @@ export class CommonPage{
     clickButtonByDataTest(buttonName) {
     cy.get(`[data-test="${buttonName}"]`).should('be.visible').click();
     }
+
+    //Se puede usar para comprobar si cualquier elemento con data-test existe, es visible o no.
+    checkStatusOnElementByDataTest(elementDataTest, status) {
+        cy.get(`[data-test="${elementDataTest}"]`).should(status);
+    }
+
+    // Este estep nos sirve para comprobar si un elemento contiene o no contiene una string
+    checkElementContent(elementDataTest, statusContent, content) {
+        cy.get(`[data-test="${elementDataTest}"]`).and(statusContent, content);
+      }
 }
