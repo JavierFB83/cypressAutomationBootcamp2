@@ -35,8 +35,8 @@ export class CommonPage{
         cy.get(`[data-test="${elementDataTest}"]`).should(status);
     }
 
-    // Este estep nos sirve para comprobar si un elemento contiene o no contiene una string
+    // Este step nos sirve para comprobar si un elemento contiene o no contiene una string
     checkElementContent(elementDataTest, statusContent, content) {
-        cy.get(`[data-test="${elementDataTest}"]`).and(statusContent, content);
+        cy.get(`[data-test="${elementDataTest}"]`).should(statusContent, content);
       }
 }
