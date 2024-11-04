@@ -42,7 +42,82 @@ When("I check that the element {string} should {string} the content {string}",(e
     commonPage.checkElementContent(elementDataTest, statusContent, content)
 });
 
+// New steps
 
+When("I check that the page should {string} the text {string}", (status, text) => {
+    commonPage.checkBodyText(status, text);
+    // Status accept the values: contain , not.contain
+  })
+  
+  Given("I check that the url value contain the text {string}", (urlValue) => {
+    commonPage.checkUrlValue(urlValue);
+  })
+  
+  Then("I check that the url value not contain the text {string}", (urlValue) => {
+    commonPage.checkUrlNotValue(urlValue);
+  })
+  
+  When("I check that the url value {string} is {string}", (urlValue, status) => {
+    commonPage.checkUrlValueStatus(status, urlValue)
+    // status value must be : include or not include
+  })
+  
+  When("I check that the status is {string} with the  url value {string}", (status, urlValue) => {
+    commonPage.checkUrlValueStatus(status, urlValue)
+    // status value must be : include or not include
+  })
+  
+  Given("I check that the element with data test {string} should have the status {string}", (elementDataTest, status) => {
+    commonPage.checkElementStateByDataTest(elementDataTest, status);
+  })
+  
+  When("I check that the element with class {string} should have the content {string}", (className, content) => {
+    commonPage.checkContentByClass(className, content);
+  })
+  
+  Given("I check that the element with data test {string} should have the value {string}", (elementDataTest, value) => {
+    commonPage.checkElementValueByDataTest(elementDataTest, value);
+  })
+  
+  Given ("I visit my url", () => {
+    commonPage.visitBaseUrl()
+  })
+  
+  Given ("I visit the saucedemo web page", () => {
+    commonPage.visitSauceDemo()
+  })
+  
+  Given ("If the button {string} exist i click on it", (button) => {
+  commonPage.clickButtonIfExist(button)
+  })
+  
+  Then ('I click on the button named {string} and wait for api call {string}', (buttonName, apiCall) => {
+    commonPage.clickButtonByNameWaitCookies(buttonName, apiCall)
+  })
+  
+  Then ('I click on the button named {string}', (buttonName) => {
+    commonPage.clickButtonByName(buttonName)
+  })
+  
+  Then ('I click on the button named {string} with a timeout of {int} miliseconds', (buttonName, timeoutParameter) => {
+    commonPage.clickButtonByNameWithTimeout(buttonName, timeoutParameter)
+  })
+  
+  Then ('I wait {int} miliseconds', (seconds) => {
+    commonPage.waitXSeconds(seconds)
+  })
+  
+  // Steps para test de accesibilidad
+  Then ('I test the accesibility in all the screen', () => {
+    commonPage.testAccesibilityInScreen()
+  })
+  
+  Then ('I test the accesibility on the element with locator {string}', (elementLocator) => {
+    commonPage.testAccesibilityOnElement(elementLocator)
+  })
+  
+  
+  
 
 
 
