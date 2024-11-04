@@ -16,5 +16,8 @@ module.exports = defineConfig({
       );
       return config;
     },
+    chromeWebSecurity: false,
+    numTestsKeptInMemory: 3,
+    defaultCommandTimeout: 10000,
   },
 });
