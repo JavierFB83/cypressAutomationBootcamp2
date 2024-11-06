@@ -21,6 +21,7 @@
     "stepDefinitions": "cypress/e2e/step-definitions/*.js"
   },
   "dependencies": {
-    "cypress_automation_bootcamp_2": "file:"
+    "cypress_automation_bootcamp_2": "file:",
+    "cypress-plugin-api": "^2.11.2"
   }
 }
