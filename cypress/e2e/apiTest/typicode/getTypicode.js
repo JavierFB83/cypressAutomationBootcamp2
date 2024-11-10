@@ -72,6 +72,99 @@ describe('Use GET method to get data from typicode', () => {
         })
       })
     });
+
+    it.only("Checks email for id = 4 using find", () => {
+      cy.request({
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts/1/comments",
+      }).should((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an("array");
+        expect(response.body).to.have.length(5);
+
+    // Usando find para buscar un id en especifico
+
+        const id_4 = response.body.find((alias) => alias.id === 4);
+        expect(id_4).to.exist;
+        expect(id_4.email).to.be.a("string");
+        expect(id_4.email).to.eq("Lew@alysha.tv");
+        expect(id_4.email).to.contain("@");
+        expect(id_4.name).to.be.a("string");
+        expect(id_4.name).to.contain("alias");
+        expect(id_4.name).to.eq("alias odio sit");
+      });
+    });
+
+    it("Checks data for id = 4 using some", () => {
+      cy.request({
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts/1/comments",
+      }).should((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.an("array");
+        expect(response.body).to.have.length(5);
     
-})
+        // Buscar directamente sobre el id === 4 usando some (personalmente prefiero como tu lo has hecho o con find)
+        expect(response.body.some(({ id, email, name }) => id === 4 && email === "Lew@alysha.tv" && name === "alias odio sit")).to.be.true;
+      });
+    });
+    
+    it("Check status, datatype and length of data response in /comments", () => {
+      cy.request({
+        method: "GET",
+        url: "https://jsonplaceholder.typicode.com/posts/1/comments",
+      }).should((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.a("array");
+        expect(response.body).to.have.length(5);
+  
+        response.body.forEach((comment) => {
+          if (comment.id === 4) {
+            expect(comment.email).to.be.a("string");
+            expect(comment.email).to.be.eq("Lew@alysha.tv");
+          }
+        });
+      });
+    });
+
+    it('get data from a typicode/post1, check its status code, type of response body and evaluates type of value', () => {
+      cy.request('https://jsonplaceholder.typicode.com/posts/1').should((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.a('object');
+        Object.values(response.body).forEach((value) => {
+          // Comparar si los values de las key son string o un number
+          expect(typeof value === 'number' || typeof value === 'string').to.be.true;
+        });
+          // Se puede comprobar en la misma aserción si es un string o un number además de comprobar el valor exacto que tiene
+        expect(response.body['title']).to.be.a('string').to.eq(
+          'sunt aut facere repellat provident occaecati excepturi optio reprehenderit'
+        );
+        expect(response.body['userId']).to.be.a('number').to.eq(1);
+        expect(response.body['body']).to.be.a('string').to.eq(
+          'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto'
+        );
+      });
+    });
+  
+    it.only('get data from a typicode/post1/comments, check its status code, type of response body and assert over object with id 4', () => {
+      cy.request('https://jsonplaceholder.typicode.com/posts/1/comments').should((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.be.a('array');
+        expect(response.body).to.have.length(5);
+        response.body.filter((comment) => {
+          comment.id === 4 && expect(comment.email).to.eq('Lew@alysha.tv');
+        });
+      });
+    });
+  
+    it.only('a 404 error is displayed when getting data from typicode/post1/comment', () => {
+      cy.request({
+        url: 'https://jsonplaceholder.typicode.com/posts/1/comment',
+        failOnStatusCode: false
+      }).should((response) => {
+        expect(response.status).to.eq(404);
+      });
+    });
+});
+
 
