@@ -120,7 +120,6 @@ export class CommonPage{
     cy.wait('@'+ aliasApiCall, {timeout: time});
     }
 
-
     clickButtonByNameWaitCookies (buttonName, apiCall) {
         cy.intercept(apiCall).as('cookiesLoad');
         cy.wait('@cookiesLoad', {timeout: 4000});

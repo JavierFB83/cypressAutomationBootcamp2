@@ -76,7 +76,7 @@ describe('Testing POST and PUT on Typicode', () => {
     cy.request('DELETE', 'https://jsonplaceholder.typicode.com/posts/1')
    });
 
-   it.only('Use all the method "POST" to create an object, "GET" to check is already created, "PATCH" to modify one property, "PUT" to overwrite all properties, "DELETE" to delete the object', () => {
+   it('Use all the method "POST" to create an object, "GET" to check is already created, "PATCH" to modify one property, "PUT" to overwrite all properties, "DELETE" to delete the object', () => {
     const postData = {
       "name": "Objeto creado por Javier Flores",
       "data": {
@@ -134,5 +134,132 @@ describe('Testing POST and PUT on Typicode', () => {
       });
     });
    });
+
+   // Lo mismo pero mejor explicado
+   it('All methods used in one test', () => {
+    //Declaramos las variables a usar en los metodos POST, PUT y PATCH
+    const postData = {
+      "name": "Objeto creado por Javier Flores",
+      "data": {
+        "year": 2024,
+        "price": 10,
+        "CPU model": "Api testing with Cypress",
+        "Hard disk size": "1 TB"
+      }
+    }
+    const putData = {
+      "name": "PUT update",
+      "data": {
+        "year": 2024,
+        "price": 10,
+        "CPU model": "PUT with Cypress",
+        "Hard disk size": "1 TB"
+      }
+    }
+    const patchData = {
+      "name": "PATCH change",
+      "data": {
+        "CPU model": "Happy API testing with Cypress",
+      }
+    }
+// Aqui hacemos un POST para crear un Objeto
+    cy.request('POST', 'https://api.restful-api.dev/objects', postData)
+      .then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.deep.include(postData);
+// Con cy.wrap guardamos el valor de la ID para usarlo más adelante
+        cy.wrap(response.body.id).as('objectID');
+      });
+    cy.get('@objectID').then((objectID) => {
+      cy.log(objectID);
+      cy.request('GET', `https://api.restful-api.dev/objects/${objectID}`)
+        .then((response) => {
+          expect(response.status).to.eq(200);
+          expect(response.body).to.deep.include(postData);
+      });
+// Aquí hacemos un PUT para comprobar que los datos se sobreescriben
+    cy.request('PUT', `https://api.restful-api.dev/objects/${objectID}`, putData)
+    .then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.deep.include(putData);
+    });
+    cy.wait(1000);
+// Aquí hacemos un PATCH para comprobar que podemos modificar solo algunos datos, (pero en esta API actúa como un PUT)
+    cy.request('PATCH', `https://api.restful-api.dev/objects/${objectID}`, patchData)
+    .then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body).to.deep.include(patchData);
+    cy.request(`https://api.restful-api.dev/objects/${objectID}`)
+    });
+// Aquí hacemos un DELETE para borrar el objeto creado
+    cy.request('DELETE', `https://api.restful-api.dev/objects/${objectID}`) .then((response) => {
+      expect(response.body.message).to.eq(`Object with id = ${objectID} has been deleted.`);
+    })
+   });
+  });
+
+
+  // Guardar el valor de la ID en una variable para usarlos en otros tests
+
+let id
+//Declaramos la variable id para guardar el valor de la ID fuera del test para tener acceso en todos
+    it('POST', () => {
+        const bodyCreate = {
+            name: "Prueba",
+            data: null
+        };
+        cy.request('POST', 'https://api.restful-api.dev/objects', bodyCreate)
+        .then((response) => {
+            const res = response.body
+            id = res.id
+            expect(response.status).to.eq(200);
+            expect(res).to.deep.include(bodyCreate);
+            cy.log(res.createdAt);
+            cy.log(res.id);
+        })
+    });
+
+    it('PATCH', () => {
+        const bodyUpdate = {
+            data: {
+                year: 2019,
+            }
+        }
+        cy.request('PATCH',  `https://api.restful-api.dev/objects/${id}`, bodyUpdate)
+        .then((response) => {
+            const res = response.body
+            expect(response.status).to.eq(200);
+            expect(res).to.deep.include(bodyUpdate);
+            expect(res.id).to.deep.eq(id);
+            expect(res.updatedAt).to.be.a('string');
+        })
+    })
+
+    it('GET new product created', () => {
+        const expectedBody = {
+            id: id,
+            name: "Prueba",
+            data: {
+                year: 2019,
+            }
+        }
+        cy.request('GET', `https://api.restful-api.dev/objects/${id}`)
+        .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.deep.eq(expectedBody);
+        })
+    });
+
+    it('DELETE new product created', () => {
+        const expectedBody = {
+            message: `Object with id = ${id} has been deleted.`
+        }
+        cy.request('DELETE', `https://api.restful-api.dev/objects/${id}`)
+        .then((response) => {
+            expect(response.status).to.eq(200);
+            expect(response.body).to.deep.eq(expectedBody);
+        })
+    });
+
 
 });
