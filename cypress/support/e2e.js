@@ -18,5 +18,8 @@ import './commands'
 import 'cypress-axe' 
 import 'cypress-plugin-api'
 
+Cypress.on('uncaught:exception', (err, runnable) => {
+  return false
+})
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

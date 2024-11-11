@@ -106,6 +106,14 @@ When("I check that the page should {string} the text {string}", (status, text) =
   Then ('I wait {int} miliseconds', (seconds) => {
     commonPage.waitXSeconds(seconds)
   })
+
+  Then ('I intercept the api call {string} with the alias {string}', (apiCall, aliasApiCall) => {
+    commonPage.interceptApiCallAddAlias(apiCall, aliasApiCall)
+  })
+  
+  Then ('I wait maximum of {int} miliseconds for the api call with the alias {string}', (time, aliasApiCall) => {
+    commonPage.waitApiCallByAlias(time, aliasApiCall)
+  })
   
   // Steps para test de accesibilidad
   Then ('I test the accesibility in all the screen', () => {

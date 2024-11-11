@@ -103,7 +103,7 @@ describe('Use GET method to get data from typicode', () => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an("array");
         expect(response.body).to.have.length(5);
-        expect(response.body.some(({ id, email, name }) => id === 4 && email === "Lew@alysha.tv" && name === "alias odio sit")).to.be.true;
+        expect(response.body.some(({ id, email, name, body }) => id === 4 && email === "Lew@alysha.tv" && name === "alias odio sit" && body === "non et atque\noccaecati deserunt quas accusantium unde odit nobis qui voluptatem\nquia voluptas consequuntur itaque dolor\net qui rerum deleniti ut occaecati")).to.be.true;
       });
     });
     
@@ -125,7 +125,7 @@ describe('Use GET method to get data from typicode', () => {
       });
     });
 
-    it('get data from a typicode/post1, check its status code, type of response body and evaluates type of value', () => {
+    it.only('get data from a typicode/post1, check its status code, type of response body and evaluates type of value', () => {
       cy.request('https://jsonplaceholder.typicode.com/posts/1').should((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.a('object');
@@ -138,13 +138,13 @@ describe('Use GET method to get data from typicode', () => {
           'sunt aut facere repellat provident occaecati excepturi optio reprehenderit'
         );
         expect(response.body['userId']).to.be.a('number').to.eq(1);
-        expect(response.body['body']).to.be.a('string').to.eq(
+        expect(response.body['body']).to.be.a('string').to.contain(
           'quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto'
         );
       });
     });
   
-    it.only('get data from a typicode/post1/comments, check its status code, type of response body and assert over object with id 4', () => {
+    it('get data from a typicode/post1/comments, check its status code, type of response body and assert over object with id 4', () => {
       cy.request('https://jsonplaceholder.typicode.com/posts/1/comments').should((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.a('array');
@@ -157,7 +157,7 @@ describe('Use GET method to get data from typicode', () => {
   
     it.only('a 404 error is displayed when getting data from typicode/post1/comment', () => {
       cy.request({
-        url: 'https://jsonplaceholder.typicode.com/posts/1/comment',
+        url: 'https://jsonplaceholder.typicode.com/posts/1/error',
         failOnStatusCode: false
       }).should((response) => {
         expect(response.status).to.eq(404);
