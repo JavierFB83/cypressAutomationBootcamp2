@@ -73,7 +73,7 @@ describe('Use GET method to get data from typicode', () => {
       })
     });
 
-    it.only("Checks email for id = 4 using find", () => {
+    it("Checks email for id = 4 using find", () => {
       cy.request({
         method: "GET",
         url: "https://jsonplaceholder.typicode.com/posts/1/comments",
@@ -103,8 +103,6 @@ describe('Use GET method to get data from typicode', () => {
         expect(response.status).to.eq(200);
         expect(response.body).to.be.an("array");
         expect(response.body).to.have.length(5);
-    
-        // Buscar directamente sobre el id === 4 usando some (personalmente prefiero como tu lo has hecho o con find)
         expect(response.body.some(({ id, email, name }) => id === 4 && email === "Lew@alysha.tv" && name === "alias odio sit")).to.be.true;
       });
     });
