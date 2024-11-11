@@ -202,7 +202,7 @@ describe('Testing POST and PUT on Typicode', () => {
   // Guardar el valor de la ID en una variable para usarlos en otros tests
 
 let id
-//Declaramos la variable id para guardar el valor de la ID fuera del test para tener acceso en todos
+//Declaramos la variable id vacía para luego ponerle elvalor de la ID y tener acceso en todos los tests 
     it('POST', () => {
         const bodyCreate = {
             name: "Prueba",
