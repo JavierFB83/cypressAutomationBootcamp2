@@ -1,3 +1,4 @@
+@regression @smoke @login
 Feature: Login test suite
 
     Background: Login

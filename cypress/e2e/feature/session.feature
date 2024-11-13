@@ -1,3 +1,4 @@
+@regression @session
 Feature: Use cy.session
 
   Background: Login and keep session with the standar_user
